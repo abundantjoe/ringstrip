@@ -2,6 +2,14 @@
 
 Ink models run on small grown patches. Readers need one sheet. `ringstrip` puts every pixel of every patch's map back where it belongs on the unrolled winding, by azimuth and height, and gives you one continuous image per direction; it also stitches overlapping tiles of a flat grid with feathered seams.
 
+## Quick start (1 minute)
+```bash
+pip install -e . && pytest            # 2 synthetic tests
+bash scripts/reproduce.sh              # rebuilds the PHerc0268 strip from the 5 included patches (tifxyz + maps)
+python -m ringstrip.unroll out/strip.png <axis_x> <axis_y> <R_ref> map.png my_patches/i*
+```
+![Five 2 x 2 cm patches of PHerc0268 at 70 % radius, unrolled into one strip (ink_9um forward map)](results/PHerc0268_band070_ink9um_forward_strip.png)
+
 ## What it does
 - `python -m ringstrip.unroll <out.png> <axis_x> <axis_y> <R_ref> <map_name> <patch_dir>...`
   Each patch directory holds `tifxyz/` (x, y, z .tif) and a map rendered on it (same aspect). Every map pixel gets its 3-D position by bilinear interpolation of the tifxyz, then lands at (azimuth × R_ref, z). Overlaps are averaged, 1-3 px holes closed, and a JSON records the cut azimuth, offsets and coverage. Patches from different grows, even different sessions, merge into the same strip.
@@ -17,7 +25,7 @@ Ink models run on small grown patches. Readers need one sheet. `ringstrip` puts 
 - The strip is not an isometric flattening; it is a readable layout for maps that were already rendered on each patch.
 
 ## Install and test
-`pip install numpy tifffile opencv-python-headless pytest` then `pytest` (2 tests, about 3 s).
+`pip install -e .` then `pytest` (2 tests, about 3 s). The five patches used for the figure are included under `results/PHerc0268_band070/` (tifxyz + half-resolution maps). Companion tools: [xsec](https://github.com/abundantjoe/xsec) (is the surface on one sheet?) and [orgsec-ink](https://github.com/abundantjoe/orgsec-ink).
 
 ## Data and citation
 Scans: PHerc0268 (volume 20251110183117, 8.64 µm, 116 keV) from the Vesuvius Challenge open-data bucket (https://scrollprize.org/data; Data Browser https://scrollprize.org/data_browser). Cite:

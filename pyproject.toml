@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "ringstrip"
+version = "0.1.0"
+description = "Unroll grown patches of one scroll winding into one continuous strip; stitch tiled maps (Vesuvius Challenge)"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+dependencies = ["numpy", "tifffile", "opencv-python-headless"]
+[tool.setuptools]
+packages = ["ringstrip"]
